@@ -197,8 +197,9 @@ static void fill_rect(int x, int y, int w, int h, Color c)
 static void fill_rrect(Rectangle r, float rad, Color fill)
 { DrawRectangleRounded(r, rad, 8, fill); }
 
+/* FIX 1: removed unused `t` (thickness) arg — new Raylib API takes no thickness */
 static void stroke_rrect(Rectangle r, float rad, Color c, float t)
-{ DrawRectangleRoundedLines(r, rad, 8, t, c); }
+{ (void)t; DrawRectangleRoundedLines(r, rad, 8, c); }
 
 static void hline(int x, int y, int w, Color c)
 { DrawLine(x, y, x+w, y, c); }
@@ -835,7 +836,8 @@ static int draw_button(StyledButton *btn)
     fill_rrect(btn->r, 0.22f, bg);
     if (hot) {
         Color glow = btn->border; glow.a = 80;
-        DrawRectangleRoundedLines(btn->r, 0.22f, 8, 3.5f, glow);
+        /* FIX 2: removed thickness arg — new Raylib API takes no thickness */
+        DrawRectangleRoundedLines(btn->r, 0.22f, 8, glow);
     }
     stroke_rrect(btn->r, 0.22f, btn->border, hot ? 2.0f : 1.2f);
 
